@@ -34,23 +34,29 @@ class ObstacleAvoidance:
         rospy.loginfo(f"Number of measurements per 360-degree scan: {num_measurements:.0f}")
 
         # Divide the scan into 3 regions 
+        # regions = {
+        #     'left': min(min(data.ranges[0:int(num_measurements*1/3)]), 10),
+        #     'front': min(min(data.ranges[int(num_measurements*1/3):int(num_measurements*2/3)]), 10),
+        #     'right': min(min(data.ranges[int(num_measurements*2/3):]), 10),
+        # }
         regions = {
-            'left': min(min(data.ranges[0:int(num_measurements*1/3)]), 10),
-            'front': min(min(data.ranges[int(num_measurements*1/3):int(num_measurements*2/3)]), 10),
-            'right': min(min(data.ranges[int(num_measurements*2/3):]), 10),
+            'left': min(min(data.ranges[0:int(num_measurements*1/6)]), 10),
+            'front': min(min(data.ranges[int(num_measurements*1/6):int(num_measurements*2/6)]), 10),
+            'right': min(min(data.ranges[int(num_measurements*2/6):int(num_measurements*3/6)]), 10),
         }
 
         rospy.loginfo(f"Regions: {regions}")
 
         # Check the regions and decide the action 
         if regions['front'] < self.min_distance:
-            rospy.loginfo("Obstacle ahead! Turning...")
 
             # If an obstacle is too close in front, turn based on which side is clearer 
             if regions['left'] < regions['right']:
-                cmd_vel.angular.z = -self.turn_speed    # Turn right
+                rospy.loginfo("Obstacle ahead! Turning Right...")
+                cmd_vel.angular.z = -self.turn_speed   
             else:
-                cmd_vel.angular.z = self.turn_speed    # Turn left
+                rospy.loginfo("Obstacle ahead! Turning Left...")
+                cmd_vel.angular.z = self.turn_speed    
             cmd_vel.linear.x = 0.0
         
         else:
