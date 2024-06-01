@@ -1,0 +1,8 @@
+prefix=/home/divine/ugvc2024_ws/install
+
+Name: terrain_traversing
+Description: Description of terrain_traversing
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

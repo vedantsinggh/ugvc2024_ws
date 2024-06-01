@@ -1,0 +1,8 @@
+prefix=/home/divine/ugvc2024_ws/devel
+
+Name: metal_detection
+Description: Description of metal_detection
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

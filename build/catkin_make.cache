@@ -1,0 +1,2 @@
+black_box_detection:metal_detection:obstacle_detection_avoidance:ocr:terrain_traversing:waypoint_navigation_gps:waypoint_navigation_imu
+-DCATKIN_DEVEL_PREFIX=/home/divine/ugvc2024_ws/devel -DCMAKE_INSTALL_PREFIX=/home/divine/ugvc2024_ws/install -G Unix Makefiles

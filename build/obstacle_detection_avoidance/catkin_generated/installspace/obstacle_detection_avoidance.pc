@@ -1,0 +1,8 @@
+prefix=/home/divine/ugvc2024_ws/install
+
+Name: obstacle_detection_avoidance
+Description: Description of obstacle_detection_avoidance
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
