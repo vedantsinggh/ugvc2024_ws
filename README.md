@@ -10,10 +10,10 @@ catkin_make
 source devel/setup.bash
 ```
 
-You need to source devel/setup.bash everytime you open terminal. To avoid this run following line. Make sure to change the path to your folder. This command add `source devel/setup.bash` to your ~/.bashrc.(If you are using different terminal (eg. `zsh`) make sure to replace .bashrc with your respective configuration file (eg. `.zshrc` in case of zsh)).
+Remember, you'll need to source devel/setup.bash every time you open a new terminal window. To automate this process and avoid manual sourcing, you can append the following line to your ~/.bashrc file (or equivalent configuration file if you're using a different terminal like zsh):
 
 ```
 echo "source ./path_to_/ugvc2024_ws/devel/setup.bash" >> ~/.bashrc
 ```
 
-Now either restart your terminal or run `source ~/.bashrc`
+After adding this line, either restart your terminal or run source ~/.bashrc to apply the changes.
