@@ -1,0 +1,13 @@
+<launch>
+    <!-- Start the Gazebo simulation -->
+    <include file="$(find robot_simulation)/launch/gazebo.launch"/>
+
+    <!-- Launch the obstacle detection node -->
+    <node name="obstacle_detection_avoidance_node" pkg="obstacle_detection_avoidance" type="obstacle_detection_avoidance_node.py" output="screen">
+        <param name="min_distance" value="0.5"/>
+        <param name="max_distance" value="3.0"/>
+        <param name="forward_speed" value="0.2"/>
+        <param name="turn_speed" value="0.5"/>
+        <param name="log_frequency" value="1.0"/>
+    </node>
+</launch>
