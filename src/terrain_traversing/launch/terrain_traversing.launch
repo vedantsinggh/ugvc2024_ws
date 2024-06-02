@@ -1,0 +1,3 @@
+<launch>
+    <node name="terrain_traversing_node" pkg="terrain_traversing" type="terrain_traversing_node.py" output="screen"/>
+</launch>
