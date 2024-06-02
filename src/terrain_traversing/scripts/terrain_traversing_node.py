@@ -13,6 +13,10 @@ class Point:
 class TerrainTreversing:
 	def __init__(self):
 		rospy.init_node('terrain_treversing_node')
+
+		self.log_frequency = rospy.get_param('~log_frequency', 1.0)    # log frequnecy in seconds 
+		self.last_log_time = rospy.get_time()
+
 		self.cmd_vel_pub = rospy.Publisher('/turtle1/cmd_vel', Twist, queue_size=10)
 		self.pose_sub = rospy.Subscriber('/turtle1/pose', Pose, self.pose_callback)
 		
@@ -76,6 +80,11 @@ class TerrainTreversing:
 		if self.current_pose is None:
 			return
 
+		current_time = rospy.get_time()
+		if current_time - self.last_log_time >= self.log_frequency:
+			rospy.loginfo(f"Navigating towards point {self.point_index + 1}, bitch! ")
+			self.last_log_time = current_time
+
 		# distance = self.haversine(self.current_gps.latitude, self.current_gps.longitude, self.target_gps.latitude, self.target_gps.longitude) 
 		distance = self.euclidean_distance(self.current_pose.x, self.current_pose.y, self.target_pose.x, self.target_pose.y)
 		if distance < 0.5:
@@ -101,6 +110,11 @@ class TerrainTreversing:
 	def spiral_search(self):
 		if not self.spiral_search_active:
 			return
+		
+		current_time = rospy.get_time()
+		if current_time - self.last_log_time >= self.log_frequency:
+			rospy.loginfo(f"Finding metal, bitch! ")
+			self.last_log_time = current_time
 
 		cmd_vel = Twist()
 		self.spiral_step += 0.1
@@ -115,10 +129,13 @@ class TerrainTreversing:
 		#TODO : write a retraversing fallback in case bot is unable to detect the metal at first go
 		if self.spiral_step > 5:
 			rospy.sleep(rospy.Duration(2))
+			rospy.loginfo(f"Metal found at {self.current_pose.x} , {self.current_pose.y}")
+			#TODO : broadcast it to the station
 			self.point_index += 1 
 
 			if self.point_index >= len(self.targets):
 				self.task_done = True
+				rospy.loginfo(f"Task completed, bitch! ")
 				#TODO: Now it should load node for next task
 
 			self.spiral_search_active = False

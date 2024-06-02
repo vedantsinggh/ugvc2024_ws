@@ -1,3 +1,7 @@
 <launch>
+
+    <param name="~log_frequency" value="1.0" />
+
+
     <node name="terrain_traversing_node" pkg="terrain_traversing" type="terrain_traversing_node.py" output="screen"/>
 </launch>
