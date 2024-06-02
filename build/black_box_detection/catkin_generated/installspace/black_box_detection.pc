@@ -1,8 +1,0 @@
-prefix=/home/divine/ugvc2024_ws/install
-
-Name: black_box_detection
-Description: Description of black_box_detection
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 
