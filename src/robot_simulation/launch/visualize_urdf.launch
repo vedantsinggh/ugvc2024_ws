@@ -1,0 +1,13 @@
+<launch>
+    <!-- Load the robot description from URDF -->
+    <param name="robot_description" command="cat $(find robot_simulation)/urdf/my_robot.urdf" />
+
+    <!-- Launch RViz -->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find robot_simulation)/rviz/robot.rviz" required="true" />
+
+    <!-- Load the robot state publisher -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+    <!-- Launch the joint state publisher GUI -->
+    <node name="joint_state_publisher_gui" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" />
+</launch>

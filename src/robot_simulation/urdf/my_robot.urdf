@@ -1,0 +1,267 @@
+<?xml version="1.0"?>
+<robot name="my_robot">
+
+    <!-- Define materials -->
+    <material name="gray">
+        <color rgba="0.5 0.5 0.5 1.0"/>
+    </material>
+    <material name="yellow">
+        <color rgba="1.0 1.0 0.0 1.0"/>
+    </material>
+    <material name="black">
+        <color rgba="0.0 0.0 0.0 1.0"/>
+    </material>
+
+    <!-- Base Footprint -->
+    <link name="base_footprint" />
+
+    <!-- Base Link -->
+    <link name="base_link">
+        <visual>
+            <geometry>
+                <box size="3.12 2.06 1.10"/> 
+            </geometry>
+            <material name="gray"/>
+        </visual>
+    </link>
+    <joint name="base_link_joint" type="fixed">
+        <parent link="base_footprint"/>
+        <child link="base_link"/>
+        <origin xyz="0.0 0.0 1.05" rpy="0.0 0.0 0.0"/>
+    </joint>
+
+    <!-- Comparetment 1 -->
+    <link name="comp_1">
+        <visual>
+            <geometry>
+                <box size="1.64 2.06 1.52"/> 
+            </geometry>
+            <material name="gray"/>
+        </visual>
+    </link>
+    <joint name="comp_1_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="comp_1"/>
+        <origin xyz="-0.74 0.0 0.55" rpy="0.0 0.0 0.0"/>
+    </joint>
+
+    <!-- Left Rear Wheel -->
+    <link name="left_rear_wheel">
+        <visual>
+            <geometry>
+                <cylinder length="0.26" radius="0.5"/>
+            </geometry>
+            <material name="black"/>
+        </visual>
+    </link>
+    <joint name="left_rear_wheel_joint" type="continuous">
+        <parent link="base_link"/>
+        <child link="left_rear_wheel"/>
+        <origin xyz="-1.56 1.16 -0.55" rpy="-1.57 0.0 0.0"/>
+        <axis xyz="0 0 1"/>
+    </joint>
+
+    <!-- Right Rear Wheel -->
+    <link name="right_rear_wheel">
+        <visual>
+            <geometry>
+                <cylinder length="0.26" radius="0.5"/>
+            </geometry>
+            <material name="black"/>
+        </visual>
+    </link>
+    <joint name="right_rear_wheel_joint" type="continuous">
+        <parent link="base_link"/>
+        <child link="right_rear_wheel"/>
+        <origin xyz="-1.56 -1.16 -0.55" rpy="1.57 0.0 0.0"/>
+        <axis xyz="0 0 1"/>
+    </joint>
+
+    <!-- Left Front Wheel -->
+    <link name="left_front_wheel">
+        <visual>
+            <geometry>
+                <cylinder length="0.26" radius="0.5"/>
+            </geometry>
+            <material name="black"/>
+        </visual>
+    </link>
+    <joint name="left_front_wheel_joint" type="continuous">
+        <parent link="base_link"/>
+        <child link="left_front_wheel"/>
+        <origin xyz="1.56 1.16 -0.55" rpy="-1.57 0.0 0.0"/>
+        <axis xyz="0 0 1"/>
+    </joint>
+
+    <!-- Right Front Wheel -->
+    <link name="right_front_wheel">
+        <visual>
+            <geometry>
+                <cylinder length="0.26" radius="0.5"/>
+            </geometry>
+            <material name="black"/>
+        </visual>
+    </link>
+    <joint name="right_front_wheel_joint" type="continuous">
+        <parent link="base_link"/>
+        <child link="right_front_wheel"/>
+        <origin xyz="1.56 -1.16 -0.55" rpy="1.57 0.0 0.0"/>
+        <axis xyz="0 0 1"/>
+    </joint>
+
+    <!-- LIDAR Sensor -->
+    <link name="laser_link">
+        <visual>
+            <geometry>
+                <cylinder length="0.156" radius="0.152"/>
+            </geometry>
+            <material name="black"/>
+        </visual>
+    </link>
+    <joint name="laser_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="laser_link"/>
+        <origin xyz="1.408 0.0 0.628" rpy="0.0 0.0 0.0"/>
+    </joint>
+
+    <!-- LIDAR Sensor Plugin -->
+    <gazebo>
+        <sensor type="ray" name="laser_sensor">
+            <update_rate>30.0</update_rate>
+            <pose>0 0 0.1 0 0 0</pose>
+            <visualize>true</visualize>
+            <ray>
+                <scan>
+                    <horizontal>
+                        <samples>720</samples>
+                        <resolution>1</resolution>
+                        <min_angle>-3.14</min_angle>
+                        <max_angle>3.14</max_angle>
+                    </horizontal>
+                </scan>
+                <range>
+                    <min>0.1</min>
+                    <max>10.0</max>
+                    <resolution>0.01</resolution>
+                </range>
+            </ray>
+            <plugin name="gazebo_ros_laser_controller" filename="libgazebo_ros_laser.so">
+                <robotNamespace>/</robotNamespace>
+                <topicName>/scan</topicName>
+                <frameName>laser_link</frameName>
+            </plugin>
+        </sensor>
+    </gazebo>
+
+    <!-- ================================================================================================================================================= -->
+
+    <!-- Left Rocker -->
+    <link name="left_rocker">
+        <visual>
+            <geometry>
+                <cylinder length="0.6" radius="0.05"/>
+            </geometry>
+            <material name="yellow"/>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder length="0.6" radius="0.05"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="left_rocker_joint" type="continuous">
+        <parent link="base_link"/>
+        <child link="left_rocker"/>
+        <origin xyz="0.3 0.2 0" rpy="0 0 0"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+
+    <!-- Left Bogie -->
+    <link name="left_bogie">
+        <visual>
+            <geometry>
+                <cylinder length="0.6" radius="0.05"/>
+            </geometry>
+            <material name="yellow"/>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder length="0.6" radius="0.05"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="left_bogie_joint" type="continuous">
+        <parent link="left_rocker"/>
+        <child link="left_bogie"/>
+        <origin xyz="0.6 0 0" rpy="0 0 0"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+
+    <!-- Right Rocker -->
+    <link name="right_rocker">
+        <visual>
+            <geometry>
+                <cylinder length="0.6" radius="0.05"/>
+            </geometry>
+            <material name="yellow"/>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder length="0.6" radius="0.05"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="right_rocker_joint" type="continuous">
+        <parent link="base_link"/>
+        <child link="right_rocker"/>
+        <origin xyz="0.3 -0.2 0" rpy="0 0 0"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+
+    <!-- Right Bogie -->
+    <link name="right_bogie">
+        <visual>
+            <geometry>
+                <cylinder length="0.6" radius="0.05"/>
+            </geometry>
+            <material name="yellow"/>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder length="0.6" radius="0.05"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="right_bogie_joint" type="continuous">
+        <parent link="right_rocker"/>
+        <child link="right_bogie"/>
+        <origin xyz="0.6 0 0" rpy="0 0 0"/>
+        <axis xyz="0 1 0"/>
+    </joint>
+
+    
+
+    <!-- Differential Drive Controller Plugin -->
+    <gazebo>
+        <plugin name="gazebo_ros_diff_drive" filename="libgazebo_ros_diff_drive.so">
+            <robotNamespace>/</robotNamespace>
+            <commandTopic>cmd_vel</commandTopic>
+            <odometryTopic>odom</odometryTopic>
+            <odometryFrame>odom</odometryFrame>
+            <robotBaseFrame>base_link</robotBaseFrame>
+            <leftJoint>left_front_wheel_joint</leftJoint>
+            <rightJoint>right_front_wheel_joint</rightJoint>
+            <wheelSeparation>0.34</wheelSeparation>
+            <wheelDiameter>0.15</wheelDiameter>
+            <wheelTorque>5.0</wheelTorque>
+            <updateRate>100.0</updateRate>
+        </plugin>
+    </gazebo>
+
+    
+
+</robot>
