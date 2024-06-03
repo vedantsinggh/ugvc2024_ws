@@ -2,9 +2,10 @@
 
 import rospy 
 import math 
-from sensor_msgs.msg  import NavSatFix
+from sensor_msgs.msg  import NavSatFix, Imu
 from geometry_msgs.msg import Twist 
 from geopy.distance import geodesic
+from tf.transformations import euler_from_quaternion
 
 class WaypointNavigationGPS:
     def __init__(self):
@@ -24,7 +25,16 @@ class WaypointNavigationGPS:
         self.pub = rospy.Publisher('/cmd/vel', Twist, queue_size=10)
 
         # Subscribers 
-        self.sub = rospy.Subscriber('/gps/fix', NavSatFix, self.gps_callback)
+        self.gps_sub = rospy.Subscriber('/gps/fix', NavSatFix, self.gps_callback)
+        self.imu_sub = rospy.Subscriber('/imu/data', Imu, self.imu_callback)
+
+        self.current_yaw = 0.0
+
+    def imu_callback(self, data):
+        orientation_q = data.orientation
+        orientation_list = [orientation_q.x, orientation_q.y, orientation_q.z, orientation_q.w]
+        (roll, pitch, yaw) = euler_from_quaternion(orientation_list)
+        self.current_yaw = math.degrees(yaw)
 
     def gps_callback(self, data):
         if (self.current_waypoint_index >= len(self.waypoints)):
@@ -72,9 +82,8 @@ class WaypointNavigationGPS:
     def move_towards_waypoint(self, heading):
         cmd_vel = Twist()
 
-        # current orientation of robot is required to calculate heading error (typically this is obtained using IMU)
-        current_yaw = 0.0   # TODO_: Using IMU sensor  
-        heading_error = heading - current_yaw
+        # Current orientation (or yaw) of robot is required to calculate heading error (typically this is obtained using IMU)
+        heading_error = heading - self.current_yaw
 
         # Normalize the heading error (ensure it lies between -180 to 180 degrees) [ensure robot takes shortest turn to correct it's direction]
         if heading_error > 180:
