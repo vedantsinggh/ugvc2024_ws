@@ -1,0 +1,9 @@
+<launch>
+    <node pkg="waypoint_navigation_imu" type="waypoint_navigation_imu_node.py" name="waypoint_navigation_imu_node" output="screen">
+    <param name="~polar_waypoints" value="[(1.0, 0.0), (2.0, 45.0)]" />
+    <param name="~current_position" value="[0.0, 0.0]" />
+    <param name="~current_orientation" value="0.0" />
+    <param name="~distance_threshold" value="1.0" />
+    <param name="~linear_speed" value="1.0" />
+    <param name="~angular_speed" value="0.5" />
+</launch>
