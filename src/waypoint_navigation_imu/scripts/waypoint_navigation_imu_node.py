@@ -10,8 +10,11 @@ class WaypointNavigationIMU:
         rospy.init_node('waypoint_navigation_imu_node', anonymous=True)
 
         # Parameters 
+        self.current_position = rospy.get_param('~current-position', [0.0, 0.0])    # (x, y)
+        self.current_orientation = rospy.get_param('~current_orientation', 0.0)
         polar_waypoints = rospy.get_param('~polar_waypoints', [(1.0, 0.0), (2.0, 45.0)])    # (radius, angle in degrees)
         self.waypoints = [self.polar_to_cartesian(r, theta) for r, theta in polar_waypoints]
+        self.waypoints = self.sort_waypoints_by_proximity(self.current_position, self.waypoints)
         self.current_waypoint_index = 0
         self.distance_threshold = rospy.get_param('~distance_threshold', 1.0)    # meters
         self.linear_speed = rospy.get_param('~linear_speed', 1.0)    # meters per second 
@@ -23,8 +26,6 @@ class WaypointNavigationIMU:
         # Subscribers 
         self.imu_sub = rospy.Subscriber('/imu/data', Imu, self.imu_callback)
 
-        self.current_position = (0.0, 0.0)
-        self.current_orientation = 0.0
         self.last_time = rospy.Time.now()
 
     def polar_to_cartesian(self, radius, angle):
@@ -34,6 +35,9 @@ class WaypointNavigationIMU:
         y = radius * math.sin(angle_rad)
 
         return (x, y)
+    
+    def sort_waypoints_by_proximity(self, current_position, waypoints):
+        return sorted(waypoints, key=lambda waypoint: self.calculate_distance(current_position, waypoint))
 
     def imu_callback(self, data):
         current_time = rospy.Time.now()
