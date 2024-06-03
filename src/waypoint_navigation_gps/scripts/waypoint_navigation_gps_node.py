@@ -12,17 +12,14 @@ class WaypointNavigationGPS:
         rospy.init_node('waypoint_navigation_gps', anonymous=True)
 
         # Parameters 
-        self.waypoints = [
-            (37.7749, -122.4194),    # Example waypoints (latitude, longitude)
-            (37.7750, 122.4180)
-        ]
+        self.waypoints = rospy.get_param('~polar_waypoints', [(37.7749, -122.4194), (37.7750, 122.4180)])    # (latitude, longitude)
         self.current_waypoint_index = 0
         self.distance_threshold = rospy.get_param('~distance_threshold', 1.0)    # meters
         self.linear_speed = rospy.get_param('~linear_speed', 1.0)    # meters per second 
         self.angular_speed = rospy.get_param('~angular_speed', 0.5)    # radians per second
 
         # Publishers 
-        self.pub = rospy.Publisher('/cmd/vel', Twist, queue_size=10)
+        self.pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
 
         # Subscribers 
         self.gps_sub = rospy.Subscriber('/gps/fix', NavSatFix, self.gps_callback)
