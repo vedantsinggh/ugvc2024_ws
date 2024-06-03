@@ -42,7 +42,7 @@ class WaypointNavigationGPS:
             return 
         
         current_position = (data.latitude, data.longitude)
-        target_position = self.waypoints(self.current_waypoint_index)
+        target_position = self.waypoints[self.current_waypoint_index]
 
         # Calculating distance while taking in account the curvature of the earth 
         distance_to_waypoint = geodesic(current_position, target_position).meters 
@@ -65,8 +65,8 @@ class WaypointNavigationGPS:
         diff_lon = lon_target - lon_current
 
         # Spherical Trigonometry to calculate cartesian co-ordinates of target location relative to the current location
-        x = math.sin(diff_lon) * math.cos(lat_target)
-        y = math.cos(lat_current) * math.sin(lat_target) - (math.sin(lat_current) * math.cos(lat_target) * math.cos(diff_lon))
+        x = math.sin(diff_lon) * math.cos(lat_target)    # Computes the East-West distance component 
+        y = math.cos(lat_current) * math.sin(lat_target) - (math.sin(lat_current) * math.cos(lat_target) * math.cos(diff_lon))    # North-South distance component & adjusts for curvature of earth
 
         # Calculate initial bearing 
         initial_bearing = math.atan2(x, y)    # returns angle between +ve x-axis & point (x, y). This angle is initial bearing in radians 
