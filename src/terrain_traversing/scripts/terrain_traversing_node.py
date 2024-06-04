@@ -16,39 +16,35 @@ class TerrainTreversing:
 
 		self.log_frequency = rospy.get_param('~log_frequency', 1.0)    # log frequnecy in seconds 
 		self.last_log_time = rospy.get_time()
-
-		self.cmd_vel_pub = rospy.Publisher('/turtle1/cmd_vel', Twist, queue_size=10)
-		self.pose_sub = rospy.Subscriber('/turtle1/pose', Pose, self.pose_callback)
 		
-# ---------------GPS--------------------------
-		# self.cmd_vel_pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
-		# rospy.Subscriber('/gps/fix', NavSatFix, self.gps_callback)
-		# rospy.Subscriber('/imu/data', Imu, self.imu_callback)
+		self.cmd_vel_pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
+		rospy.Subscriber('/gps/fix', NavSatFix, self.gps_callback)
+		rospy.Subscriber('/imu/data', Imu, self.imu_callback)
 
 		#TODO : input target data from params
-		# self.targets = [
-		# 	NavSatFix(latitude=30.0500, longitude=31.2333),
-		# 	NavSatFix(latitude=30.0500, longitude=31.2333),
-		# 	NavSatFix(latitude=30.0500, longitude=31.2333)
-		# ]
-
-		# self.current_gps = None
-		# self.target_gps = targets[0] 
-
-
-# ---------------GPS--------------------------
-
-
-# -----FOR TESTING IN TURTLE MAKE SURE TO RUN TURTLESIMNODE FIRST-----
-		self.current_pose = None
-		self.target_pose = Pose()
-
 		#TODO : implement dikjstra algo to sort the target array 
+		#TODO : normalize angular velocity
 		self.targets = [
-			Point(2,8),
-			Point(8,8),
-			Point(8,2),
+			NavSatFix(latitude=30.0500, longitude=31.2333),
+			NavSatFix(latitude=30.0500, longitude=31.2333),
+			NavSatFix(latitude=30.0500, longitude=31.2333)
 		]
+
+		self.current_gps = None
+		self.target_gps = self.targets[0] 
+
+# ---------------Trutle --------------------------
+		# self.cmd_vel_pub = rospy.Publisher('/turtle1/cmd_vel', Twist, queue_size=10)
+		# self.pose_sub = rospy.Subscriber('/turtle1/pose', Pose, self.pose_callback)
+		# self.current_pose = None
+		# self.target_pose = Pose()
+
+		# self.targets = [
+		# 	Point(2,8),
+		# 	Point(8,8),
+		# 	Point(8,2),
+		# ]
+# ---------------Trutle --------------------------
 
 		
 		self.point_index = 0
@@ -56,18 +52,22 @@ class TerrainTreversing:
 
 		self.target_reached = False
 		self.spiral_search_active = False
-		self.spiral_step = .5  
-		self.spiral_rotation = 5
-		
+
+		self.spiral_step = rospy.get_param('~spiral_step', 0.5)    
+		self.spiral_rotation = rospy.get_param('~spiral_rotation', 5.0)    
+		self.linear_multiplier = rospy.get_param('~linear_multiplier', 1.0)    
+		self.angular_multiplier = rospy.get_param('~angular_multiplier', 4.0)
+		self.spiral_inc = rospy.get_param('~spiral_inc', 0.1)
+
 		self.rate = rospy.Rate(10)
 
 # ---------------GPS-------------------------
-	# def gps_callback(self, msg):
-	# 	self.current_gps = msg
+	def gps_callback(self, msg):
+		self.current_gps = msg
 
 	#TODO : input IMU data for accuracy 
-	# def imu_callback(self, msg):
-	# 	pass  # to configure IMU data
+	def imu_callback(self, msg):
+		pass  # to configure IMU data
 # ---------------GPS--------------------------
 
 	def pose_callback(self, msg):
@@ -85,16 +85,23 @@ class TerrainTreversing:
 			rospy.loginfo(f"Navigating towards point {self.point_index + 1}, bitch! ")
 			self.last_log_time = current_time
 
-		# distance = self.haversine(self.current_gps.latitude, self.current_gps.longitude, self.target_gps.latitude, self.target_gps.longitude) 
-		distance = self.euclidean_distance(self.current_pose.x, self.current_pose.y, self.target_pose.x, self.target_pose.y)
+		distance = self.haversine(self.current_gps.latitude, self.current_gps.longitude, self.target_gps.latitude, self.target_gps.longitude) 
+		# distance = self.euclidean_distance(self.current_pose.x, self.current_pose.y, self.target_pose.x, self.target_pose.y)
 		if distance < 0.5:
 			self.target_reached = True
 			rospy.loginfo("Waypoint reached")
 			return
+		
+		# Normalize the angular difference between current position and target waypoint
+		angular_diff_curr_wayp = (math.atan2(self.target_pose.y - self.current_pose.y, self.target_pose.x - self.current_pose.x) - self.current_pose.theta)
+		if angular_diff_curr_wayp > math.pi:
+				angular_diff_curr_wayp =- 2 * math.pi
+		elif angular_diff_curr_wayp <  -math.pi:
+				angular_diff_curr_wayp =+ 2 * math.pi
 
 		cmd_vel = Twist()
-		cmd_vel.linear.x = 1.0 * distance
-		cmd_vel.angular.z = 4.0 * (math.atan2(self.target_pose.y - self.current_pose.y, self.target_pose.x - self.current_pose.x) - self.current_pose.theta)
+		cmd_vel.linear.x = self.linear_multiplier * distance
+		cmd_vel.angular.z = self.angular_multiplier *  angular_diff_curr_wayp
 		self.cmd_vel_pub.publish(cmd_vel)
 
 	def haversine(self, lat1, lon1, lat2, lon2):
@@ -117,7 +124,7 @@ class TerrainTreversing:
 			self.last_log_time = current_time
 
 		cmd_vel = Twist()
-		self.spiral_step += 0.1
+		self.spiral_step += self.spiral_inc
 		cmd_vel.linear.x = self.spiral_step
 		cmd_vel.linear.y = 0
 		cmd_vel.linear.z = 0
