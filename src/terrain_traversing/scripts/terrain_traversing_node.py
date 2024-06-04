@@ -33,7 +33,7 @@ class TerrainTreversing:
 		self.current_gps = None
 		self.target_gps = self.targets[0] 
 
-# ---------------Trutle --------------------------
+# ---------------Turtle --------------------------
 		# self.cmd_vel_pub = rospy.Publisher('/turtle1/cmd_vel', Twist, queue_size=10)
 		# self.pose_sub = rospy.Subscriber('/turtle1/pose', Pose, self.pose_callback)
 		# self.current_pose = None
@@ -44,7 +44,7 @@ class TerrainTreversing:
 		# 	Point(8,8),
 		# 	Point(8,2),
 		# ]
-# ---------------Trutle --------------------------
+# ---------------Turtle --------------------------
 
 		
 		self.point_index = 0
@@ -63,18 +63,26 @@ class TerrainTreversing:
 
 # ---------------GPS-------------------------
 	def gps_callback(self, msg):
-		self.current_gps = msg
+		try:
+			self.current_gps = msg
+		except Exception as e:
+			rospy.logwarn(f"[terrain_traversing_node] Incomplete or Invalid data recieved from GPS: {e}")
 
 	#TODO : input IMU data for accuracy 
 	def imu_callback(self, msg):
-		pass  # to configure IMU data
+		try:
+			pass  # to configure IMU data
+		except Exception as e:
+			rospy.logwarn(f"[terrain_traversing_node] Incomplete or Invalid data recieved from IMU: {e}")
+			
+
 # ---------------GPS--------------------------
 
-	def pose_callback(self, msg):
-		self.current_pose = msg
+	# def pose_callback(self, msg):
+	# 	self.current_pose = msg
 
-	def euclidean_distance(self, x1, y1, x2, y2):
-		return math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
+	# def euclidean_distance(self, x1, y1, x2, y2):
+	# 	return math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
 
 	def navigate_to_waypoint(self):
 		if self.current_pose is None:

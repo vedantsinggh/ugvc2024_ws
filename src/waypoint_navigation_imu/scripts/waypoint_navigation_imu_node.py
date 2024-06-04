@@ -40,24 +40,28 @@ class WaypointNavigationIMU:
         return sorted(waypoints, key=lambda waypoint: self.calculate_distance(current_position, waypoint))
 
     def imu_callback(self, data):
-        current_time = rospy.Time.now()
-        dt = (current_time - self.last_time).secs
+        try:
+            current_time = rospy.Time.now()
+            dt = (current_time - self.last_time).secs
 
-        # Integrate accelarations to update position 
-        acc_x = data.linear_accelaration.x
-        acc_y = data.linear_accelaration.y
+            # Integrate accelarations to update position 
+            acc_x = data.linear_accelaration.x
+            acc_y = data.linear_accelaration.y
 
-        self.current_position[0] += 0.5 * acc_x * dt**2
-        self.current_position[1] += 0.5 * acc_y * dt**2
+            self.current_position[0] += 0.5 * acc_x * dt**2
+            self.current_position[1] += 0.5 * acc_y * dt**2
 
-        # Integrate angular velocity to update orientation 
-        angular_velocity_z = data.angular_velocity.z
+            # Integrate angular velocity to update orientation 
+            angular_velocity_z = data.angular_velocity.z
 
-        self.current_orientation += angular_velocity_z * dt 
+            self.current_orientation += angular_velocity_z * dt 
 
-        self.last_time = current_time
+            self.last_time = current_time
 
-        self.navigate()
+            self.navigate()
+
+        except Exception as e:
+            rospy.logwarn(f"[waypoint_navigation_imu_node] Incomplete or Invalid data recieved from IMU: {e}")
 
     def navigate(self):
         if (self.current_waypoint_index >= len(self.waypoints)):

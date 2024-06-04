@@ -35,30 +35,38 @@ class WaypointNavigationGPS:
         return geodesic(current_position, target_position).meters
 
     def imu_callback(self, data):
-        orientation_q = data.orientation
-        orientation_list = [orientation_q.x, orientation_q.y, orientation_q.z, orientation_q.w]
-        (roll, pitch, yaw) = euler_from_quaternion(orientation_list)
-        self.current_yaw = math.degrees(yaw)
+        try:
+            orientation_q = data.orientation
+            orientation_list = [orientation_q.x, orientation_q.y, orientation_q.z, orientation_q.w]
+            (roll, pitch, yaw) = euler_from_quaternion(orientation_list)
+            self.current_yaw = math.degrees(yaw)
+            
+        except Exception as e:
+            rospy.logwarn(f"[waypoint_navigation_gps_node] Incomplete or Invalid data recieved from IMU: {e}")
 
     def gps_callback(self, data):
         if (self.current_waypoint_index >= len(self.waypoints)):
             rospy.loginfo("All waypoints reached")
             return 
         
-        current_position = (data.latitude, data.longitude)
-        target_position = self.waypoints[self.current_waypoint_index]
+        try:
+            current_position = (data.latitude, data.longitude)
+            target_position = self.waypoints[self.current_waypoint_index]
 
-        # Calculating distance while taking in account the curvature of the earth 
-        distance_to_waypoint = geodesic(current_position, target_position).meters 
-        rospy.loginfo(f"Distance to waypoint: {distance_to_waypoint:.2f} meters")
+            # Calculating distance while taking in account the curvature of the earth 
+            distance_to_waypoint = geodesic(current_position, target_position).meters 
+            rospy.loginfo(f"Distance to waypoint: {distance_to_waypoint:.2f} meters")
 
-        if (distance_to_waypoint < self.distance_threshold):
-            rospy.loginfo("Waypoint reached")
-            self.current_waypoint_index += 1
-            return 
-        
-        heading_to_waypoint = self.calculate_heading(current_position, target_position)
-        self.move_towards_waypoint(heading_to_waypoint)
+            if (distance_to_waypoint < self.distance_threshold):
+                rospy.loginfo("Waypoint reached")
+                self.current_waypoint_index += 1
+                return 
+            
+            heading_to_waypoint = self.calculate_heading(current_position, target_position)
+            self.move_towards_waypoint(heading_to_waypoint)
+
+        except Exception as e:
+            rospy.logwarn(f"[waypoint_navigation_gps_node] Incomplete or Invalid data recieved from GPS: {e}")
 
     # Function to calculate the initial bearing (or heading) from current GPS position to the target GPS position 
     # Bearing is the direction in our robot needs to tarvel to go from current location to target location 
