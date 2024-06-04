@@ -12,11 +12,15 @@ class WaypointNavigationGPS:
         rospy.init_node('waypoint_navigation_gps', anonymous=True)
 
         # Parameters 
+        self.initial_position = rospy.get_param('~initial_position', (37.749, -122.4194))    # (latitude, longitude)
         self.waypoints = rospy.get_param('~polar_waypoints', [(37.7749, -122.4194), (37.7750, 122.4180)])    # (latitude, longitude)
-        self.current_waypoint_index = 0
         self.distance_threshold = rospy.get_param('~distance_threshold', 1.0)    # meters
         self.linear_speed = rospy.get_param('~linear_speed', 1.0)    # meters per second 
         self.angular_speed = rospy.get_param('~angular_speed', 0.5)    # radians per second
+
+        # Sort waypoints based on distance from the initial position 
+        self.waypoints = sorted(self.waypoints, key=lambda waypoint: self.calculate_distance(self.initial_position, waypoint))
+        self.current_waypoint_index = 0
 
         # Publishers 
         self.pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
@@ -26,6 +30,9 @@ class WaypointNavigationGPS:
         self.imu_sub = rospy.Subscriber('/imu/data', Imu, self.imu_callback)
 
         self.current_yaw = 0.0
+
+    def calculate_distance(sself, current_position, target_position):
+        return geodesic(current_position, target_position).meters
 
     def imu_callback(self, data):
         orientation_q = data.orientation
