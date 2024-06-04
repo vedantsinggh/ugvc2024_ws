@@ -1,0 +1,3 @@
+<launch>
+    <node name="ocr_node" pkg="ocr" type="ocr_node.py" output="screen" />
+</launch>
