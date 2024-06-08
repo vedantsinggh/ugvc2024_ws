@@ -26,12 +26,12 @@ class WaypointNavigationGPS:
         self.pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
 
         # Subscribers 
-        self.gps_sub = rospy.Subscriber('/gps/fix', NavSatFix, self.gps_callback)
+        self.gps_sub = rospy.Subscriber('/gps_topic', NavSatFix, self.gps_callback)
         self.imu_sub = rospy.Subscriber('/imu/data', Imu, self.imu_callback)
 
         self.current_yaw = 0.0
 
-    def calculate_distance(sself, current_position, target_position):
+    def calculate_distance(self, current_position, target_position):
         return geodesic(current_position, target_position).meters
 
     def imu_callback(self, data):
