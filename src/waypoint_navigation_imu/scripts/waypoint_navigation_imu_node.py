@@ -10,7 +10,7 @@ class WaypointNavigationIMU:
         rospy.init_node('waypoint_navigation_imu_node', anonymous=True)
 
         # Parameters 
-        self.current_position = rospy.get_param('~current-position', [0.0, 0.0])    # (x, y)
+        self.current_position = rospy.get_param('~current_position', [0.0, 0.0])    # (x, y)
         self.current_orientation = rospy.get_param('~current_orientation', 0.0)
         polar_waypoints = rospy.get_param('~polar_waypoints', [(1.0, 0.0), (2.0, 45.0)])    # (radius, angle in degrees)
         self.waypoints = [self.polar_to_cartesian(r, theta) for r, theta in polar_waypoints]
@@ -42,11 +42,11 @@ class WaypointNavigationIMU:
     def imu_callback(self, data):
         try:
             current_time = rospy.Time.now()
-            dt = (current_time - self.last_time).secs
+            dt = (current_time - self.last_time).to_sec()    # sec() rounds off to nearest integer, so use to_sec() to take care of fractional part as well
 
-            # Integrate accelarations to update position 
-            acc_x = data.linear_accelaration.x
-            acc_y = data.linear_accelaration.y
+            # Integrate accelerations to update position 
+            acc_x = data.linear_acceleration.x
+            acc_y = data.linear_acceleration.y
 
             self.current_position[0] += 0.5 * acc_x * dt**2
             self.current_position[1] += 0.5 * acc_y * dt**2
@@ -84,7 +84,7 @@ class WaypointNavigationIMU:
     def calculate_distance(self, current_position, target_position):
         return math.sqrt((current_position[0] - target_position[0])**2 + (current_position[1] - target_position[1])**2)
 
-    def calculate_heading(current_position, target_position):
+    def calculate_heading(self, current_position, target_position):
         delta_x = target_position[0] - current_position[0] 
         delta_y = target_position[1] - current_position[1] 
 
