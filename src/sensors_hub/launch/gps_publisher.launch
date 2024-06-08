@@ -1,0 +1,3 @@
+<launch>
+    <node name="gps_publisher" pkg="sensors_hub" type="gps_publisher_node.py" output="screen" />
+</launch>
