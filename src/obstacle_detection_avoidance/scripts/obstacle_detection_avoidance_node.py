@@ -45,9 +45,9 @@ class ObstacleAvoidance:
                 #     'right': min(min(data.ranges[int(num_measurements*2/3):]), 10),
                 # }
                 regions = {
-                    'left': min(min(data.ranges[0:int(num_measurements*1/12)]), 5),
-                    'front': min(min(data.ranges[int(num_measurements*1/12):int(num_measurements*4/12)]), 5),
-                    'right': min(min(data.ranges[int(num_measurements*4/12):int(num_measurements*5/12)]), 5),
+                    'left': min(min(data.ranges[int(num_measurements*95/120):int(num_measurements*105/120)]), 5),
+                    'front': min(min(data.ranges[int(num_measurements*105/120):int(num_measurements*15/120)]), 5),
+                    'right': min(min(data.ranges[int(num_measurements*15/120):int(num_measurements*25/120)]), 5),
                 }
 
             except Exception as e:
