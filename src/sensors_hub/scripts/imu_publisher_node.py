@@ -4,6 +4,18 @@ import rospy
 from std_msgs.msg import Float32
 import serial
 import json
+import serial.tools.list_ports
+
+def find_arduino():
+    # VID and PID for Arduino Uno R3
+    arduino_vid = '2341'
+    arduino_pid = '0043'
+
+    ports = list(serial.tools.list_ports.comports())
+    for p in ports:
+        if arduino_vid in p.hwid and arduino_pid in p.hwid:
+            return p.device
+    return None
 
 def imu_publisher():
     rospy.init_node('imu_publisher', anonymous=True)
@@ -14,9 +26,14 @@ def imu_publisher():
     pub_gyro_y = rospy.Publisher('imu/gyro_y', Float32, queue_size=10)
     pub_gyro_z = rospy.Publisher('imu/gyro_z', Float32, queue_size=10)
     pub_temp = rospy.Publisher('imu/temperature', Float32, queue_size=10)
-    rate = rospy.Rate(1) # 1 hz
+    rate = rospy.Rate(10)  # 10hz
 
-    ser = serial.Serial('/dev/ttyACM0', 115200)
+    port = find_arduino()
+    if port is None:
+        rospy.logerr("Arduino not found")
+        return
+
+    ser = serial.Serial(port, 115200)
 
     while not rospy.is_shutdown():
         if ser.in_waiting > 0:
