@@ -5,7 +5,8 @@ from std_msgs.msg import Float32
 import serial
 import json
 
-def talker():
+def imu_publisher():
+    rospy.init_node('imu_publisher', anonymous=True)
     pub_accel_x = rospy.Publisher('imu/accel_x', Float32, queue_size=10)
     pub_accel_y = rospy.Publisher('imu/accel_y', Float32, queue_size=10)
     pub_accel_z = rospy.Publisher('imu/accel_z', Float32, queue_size=10)
@@ -13,8 +14,7 @@ def talker():
     pub_gyro_y = rospy.Publisher('imu/gyro_y', Float32, queue_size=10)
     pub_gyro_z = rospy.Publisher('imu/gyro_z', Float32, queue_size=10)
     pub_temp = rospy.Publisher('imu/temperature', Float32, queue_size=10)
-    rospy.init_node('imu_publisher', anonymous=True)
-    rate = rospy.Rate(10) # 10hz
+    rate = rospy.Rate(1) # 1 hz
 
     ser = serial.Serial('/dev/ttyACM0', 115200)
 
@@ -39,6 +39,6 @@ def talker():
 
 if __name__ == '__main__':
     try:
-        talker()
+        imu_publisher()
     except rospy.ROSInterruptException:
         pass

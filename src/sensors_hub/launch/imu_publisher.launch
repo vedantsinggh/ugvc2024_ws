@@ -1,0 +1,3 @@
+<launch>
+    <node name="imu_publisher" pkg="sensors_hub" type="imu_publisher_node.py" output="screen" />
+</launch>
