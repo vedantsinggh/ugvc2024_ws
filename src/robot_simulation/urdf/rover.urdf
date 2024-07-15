@@ -125,6 +125,24 @@
         </visual>
     </link>
 
+    <link name="left_back_wheel_link">
+        <visual>
+            <geometry>
+                <cylinder radius="0.127" length="0.055"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        </visual>
+    </link>
+
+    <link name="right_back_wheel_link">
+        <visual>
+            <geometry>
+                <cylinder radius="0.127" length="0.055"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        </visual>
+    </link>
+
     <link name="lidar_link">
         <visual>
             <geometry>
@@ -194,12 +212,6 @@
         <origin xyz="0.005 0.0 -0.015" rpy="0.0 -1.57 0.0"/>
     </joint>
     
-    <joint name="base_lidar_joint" type="fixed">
-        <parent link="base_link"/>
-        <child link="lidar_link"/>
-        <origin xyz="0.29 0.0 0.303" rpy="0.0 0.0 0.0"/>
-    </joint>
-    
     <joint name="forward_left_front_rocker_left_front_wheel_joint" type="continuous">
         <parent link="forward_left_front_rocker_link"/>
         <child link="left_front_wheel_link"/>
@@ -211,7 +223,37 @@
         <parent link="forward_right_front_rocker_link"/>
         <child link="right_front_wheel_link"/>
         <origin xyz="0.31 -0.0825 0.0" rpy="1.57 0.0 0.0"/>
+        <axis xyz="0.0 0.0 -1.0"/>
+    </joint>
+
+    <joint name="back_rocker_left_left_back_wheel_joint" type="continuous">
+        <parent link="back_rocker_left_link"/>
+        <child link="left_back_wheel_link"/>
+        <origin xyz="0.0 0.0825 -0.09" rpy="1.57 0.0 0.0"/>
+        <axis xyz="0.0 0.0 -1.0"/>
+    </joint>
+
+    <joint name="back_rocker_right_right_back_wheel_joint" type="continuous">
+        <parent link="back_rocker_right_link"/>
+        <child link="right_back_wheel_link"/>
+        <origin xyz="0.0 -0.0825 -0.09" rpy="-1.57 0.0 0.0"/>
         <axis xyz="0.0 0.0 1.0"/>
+    </joint>
+    
+
+
+
+
+
+
+
+
+
+
+    <joint name="base_lidar_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="lidar_link"/>
+        <origin xyz="0.29 0.0 0.303" rpy="0.0 0.0 0.0"/>
     </joint>
 
 </robot>
