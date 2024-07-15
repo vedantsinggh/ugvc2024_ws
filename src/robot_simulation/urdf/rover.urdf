@@ -83,7 +83,27 @@
                 <box size="0.3 0.03 0.03"/>
             </geometry>
             <origin xyz="-0.15 0.0 0.0" rpy="0.0 0.0 0.0"/>
-            <!-- <material name="white"/> -->
+            <material name="white"/>
+        </visual>        
+    </link>
+
+    <link name="forward_right_front_rocker_link">
+        <visual>
+            <geometry>
+                <box size="0.33 0.03 0.03"/>
+            </geometry>
+            <origin xyz="0.155 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <material name="white"/>
+        </visual>        
+    </link>
+
+    <link name="backward_right_front_rocker_link">
+        <visual>
+            <geometry>
+                <box size="0.3 0.03 0.03"/>
+            </geometry>
+            <origin xyz="-0.15 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <material name="white"/>
         </visual>        
     </link>
 
@@ -127,17 +147,11 @@
         <child link="back_rocker_right_link"/>
         <origin xyz="-0.03 -0.301 -0.085" rpy="0.0 0.0 0.0"/>
     </joint>
-    
-    <joint name="base_lidar_joint" type="fixed">
-        <parent link="base_link"/>
-        <child link="lidar_link"/>
-        <origin xyz="0.29 0.0 0.303" rpy="0.0 0.0 0.0"/>
-    </joint>
 
     <joint name="base_forward_left_front_rocker_joint" type="revolute">
         <parent link="base_link"/>
         <child link="forward_left_front_rocker_link"/>
-        <origin xyz="0.225 0.267 0.015" rpy="0.0 0.785 0.0"/>
+        <origin xyz="0.225 0.282 0.015" rpy="0.0 0.785 0.0"/>
         <axis xyz="0.0 1.0 0.0"/>
         <limit lower="-0.523" upper="0.523" effort="0.0" velocity="0.0"/>
     </joint>
@@ -146,6 +160,26 @@
         <parent link="forward_left_front_rocker_link"/>
         <child link="backward_left_front_rocker_link"/>
         <origin xyz="0.005 0.0 -0.015" rpy="0.0 -1.57 0.0"/>
+    </joint>
+
+    <joint name="base_forward_right_front_rocker_joint" type="revolute">
+        <parent link="base_link"/>
+        <child link="forward_right_front_rocker_link"/>
+        <origin xyz="0.225 -0.282 0.015" rpy="0.0 0.785 0.0"/>
+        <axis xyz="0.0 1.0 0.0"/>
+        <limit lower="-0.523" upper="0.523" effort="0.0" velocity="0.0"/>
+    </joint>
+
+    <joint name="forward_right_front_rocker_backward_right_front_rocker_joint" type="fixed">
+        <parent link="forward_right_front_rocker_link"/>
+        <child link="backward_right_front_rocker_link"/>
+        <origin xyz="0.005 0.0 -0.015" rpy="0.0 -1.57 0.0"/>
+    </joint>
+    
+    <joint name="base_lidar_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="lidar_link"/>
+        <origin xyz="0.29 0.0 0.303" rpy="0.0 0.0 0.0"/>
     </joint>
     
 </robot>
