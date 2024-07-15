@@ -143,6 +143,24 @@
         </visual>
     </link>
 
+    <link name="left_pneumatic_wheel_link">
+        <visual>
+            <geometry>
+                <cylinder radius="0.127" length="0.055"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        </visual>
+    </link>
+
+    <link name="right_pneumatic_wheel_link">
+        <visual>
+            <geometry>
+                <cylinder radius="0.127" length="0.055"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        </visual>
+    </link>
+
     <link name="lidar_link">
         <visual>
             <geometry>
@@ -240,6 +258,19 @@
         <axis xyz="0.0 0.0 1.0"/>
     </joint>
     
+    <joint name="backward_left_front_rocker_left_pneumatic_wheel_joint" type="continuous">
+        <parent link="backward_left_front_rocker_link"/>
+        <child link="left_pneumatic_wheel_link"/>
+        <origin xyz="-0.29 0.0555 0.0" rpy="-1.57 0.0 0.0"/>
+        <axis xyz="0.0 0.0 1.0"/>
+    </joint>
+    
+    <joint name="backward_right_front_rocker_right_pneumatic_wheel_joint" type="continuous">
+        <parent link="backward_right_front_rocker_link"/>
+        <child link="right_pneumatic_wheel_link"/>
+        <origin xyz="-0.29 -0.0555 0.0" rpy="1.57 0.0 0.0"/>
+        <axis xyz="0.0 0.0 -1.0"/>
+    </joint>
 
 
 
