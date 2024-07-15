@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<robot name="my_robot">
+	<!--  -->
+  
+  
+  
+	<!-- MATERIALS -->
+    <material name="black">
+        <color rgba="0.0 0.0 0.0 0.75"/>
+    </material>
+    
+    <material name="white">
+        <color rgba="1.0 1.0 1.0 0.75"/>
+    </material>
+  
+  
+  
+  
+  	<!-- LINKS -->
+    <link name="base_link">
+        <visual>
+            <geometry>
+                <box size="0.78 0.504 0.278"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.139" rpy="0.0 0.0 0.0"/>   
+            <material name="black"/> 
+        </visual>
+    </link>
+
+    <link name="upper_base_link">
+        <visual>
+            <geometry>
+                <box size="0.4 0.504 0.382"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <material name="black"/>            
+        </visual>
+    </link>
+
+    <link name="lidar_link">
+        <visual>
+            <geometry>
+                <cylinder radius="0.1" length="0.05"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <!-- <material name="materialName"/> -->
+        </visual>
+    </link>
+  
+  
+  
+  	<!-- JOINTS / TRANSFORMS -->
+    <joint name="base_lidar_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="lidar_link"/>
+        <origin xyz="0.29 0.0 0.303" rpy="0.0 0.0 0.0"/>
+        <!-- <axis xyz="0.0 0.0 0.0"/>
+        <limit lower="0.0" upper="0.0" effort="0.0" velocity="0.0"/> -->
+    </joint>
+
+    <joint name="base_upper_base_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="upper_base_link"/>
+        <origin xyz="-0.19 0.0 0.469" rpy="0.0 0.0 0.0"/>
+        <!-- <axis xyz="0.0 0.0 0.0"/>
+        <limit lower="0.0" upper="0.0" effort="0.0" velocity="0.0"/> -->
+    </joint>
+</robot>
