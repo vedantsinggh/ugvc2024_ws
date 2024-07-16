@@ -25,6 +25,12 @@
             <origin xyz="0.0 0.0 0.139" rpy="0.0 0.0 0.0"/>   
             <material name="black"/> 
         </visual>
+        <collision>
+            <geometry>
+                <box size="0.78 0.504 0.278"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.139" rpy="0.0 0.0 0.0"/>
+        </collision>
     </link>
 
     <link name="upper_base_link">
@@ -35,6 +41,12 @@
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
             <material name="black"/>            
         </visual>
+        <collision>
+            <geometry>
+                <box size="0.4 0.504 0.382"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>          
+        </collision>
     </link>
     
     <link name="back_rocker_link">
@@ -45,6 +57,12 @@
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
             <material name="white"/>
         </visual>        
+        <collision>
+            <geometry>
+                <box size="0.03 0.632 0.03"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        </collision>        
     </link>
     
     <link name="back_rocker_left_link">
@@ -55,6 +73,12 @@
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
             <material name="white"/>
         </visual>
+        <collision>
+            <geometry>
+                <box size="0.03 0.03 0.2"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        </collision>
     </link>
     
     <link name="back_rocker_right_link">
@@ -65,6 +89,12 @@
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
             <material name="white"/>
         </visual>
+        <collision>
+            <geometry>
+                <box size="0.03 0.03 0.2"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        </collision>
     </link>
 
     <link name="forward_left_front_rocker_link">
@@ -75,6 +105,12 @@
             <origin xyz="0.155 0.0 0.0" rpy="0.0 0.0 0.0"/>
             <material name="white"/>
         </visual>        
+        <collision>
+            <geometry>
+                <box size="0.33 0.03 0.03"/>
+            </geometry>
+            <origin xyz="0.155 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        </collision>        
     </link>
 
     <link name="backward_left_front_rocker_link">
@@ -85,6 +121,12 @@
             <origin xyz="-0.15 0.0 0.0" rpy="0.0 0.0 0.0"/>
             <material name="white"/>
         </visual>        
+        <collision>
+            <geometry>
+                <box size="0.3 0.03 0.03"/>
+            </geometry>
+            <origin xyz="-0.15 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        </collision>        
     </link>
 
     <link name="forward_right_front_rocker_link">
@@ -95,6 +137,12 @@
             <origin xyz="0.155 0.0 0.0" rpy="0.0 0.0 0.0"/>
             <material name="white"/>
         </visual>        
+        <collision>
+            <geometry>
+                <box size="0.33 0.03 0.03"/>
+            </geometry>
+            <origin xyz="0.155 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        </collision>        
     </link>
 
     <link name="backward_right_front_rocker_link">
@@ -105,6 +153,12 @@
             <origin xyz="-0.15 0.0 0.0" rpy="0.0 0.0 0.0"/>
             <material name="white"/>
         </visual>        
+        <collision>
+            <geometry>
+                <box size="0.3 0.03 0.03"/>
+            </geometry>
+            <origin xyz="-0.15 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        </collision>        
     </link>
 
     <link name="left_front_wheel_link">
@@ -114,6 +168,12 @@
             </geometry>
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
         </visual>
+        <collision>
+            <geometry>
+                <cylinder radius="0.127" length="0.055"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        </collision>
     </link>
 
     <link name="right_front_wheel_link">
@@ -123,6 +183,12 @@
             </geometry>
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
         </visual>
+        <collision>
+            <geometry>
+                <cylinder radius="0.127" length="0.055"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        </collision>
     </link>
 
     <link name="left_back_wheel_link">
@@ -132,6 +198,12 @@
             </geometry>
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
         </visual>
+        <collision>
+            <geometry>
+                <cylinder radius="0.127" length="0.055"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        </collision>
     </link>
 
     <link name="right_back_wheel_link">
@@ -141,6 +213,12 @@
             </geometry>
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
         </visual>
+        <collision>
+            <geometry>
+                <cylinder radius="0.127" length="0.055"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        </collision>
     </link>
 
     <link name="left_pneumatic_wheel_link">
@@ -150,6 +228,12 @@
             </geometry>
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
         </visual>
+        <collision>
+            <geometry>
+                <cylinder radius="0.127" length="0.055"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        </collision>
     </link>
 
     <link name="right_pneumatic_wheel_link">
@@ -159,6 +243,12 @@
             </geometry>
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
         </visual>
+        <collision>
+            <geometry>
+                <cylinder radius="0.127" length="0.055"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        </collision>
     </link>
 
     <link name="lidar_link">
@@ -168,6 +258,12 @@
             </geometry>
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
         </visual>
+        <collision>
+            <geometry>
+                <cylinder radius="0.1" length="0.05"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        </collision>
     </link>
 
 
@@ -181,7 +277,6 @@
         <origin xyz="-0.19 0.0 0.469" rpy="0.0 0.0 0.0"/>
     </joint>
 
-    <!-- TODO: REVOLUTE -->
     <joint name="base_back_rocker_joint" type="revolute">    
         <parent link="base_link"/>
         <child link="back_rocker_link"/>
