@@ -21,7 +21,7 @@ class ObstacleAvoidance:
         self.pub = rospy.Publisher('/cmd_vel', Twist, queue_size=10)
 
         # Subscriber 
-        rospy.Subscriber('/scan', LaserScan, self.scan_callback)
+        rospy.Subscriber('/rover/lidar', LaserScan, self.scan_callback)
 
         # For controlling log output frequency 
         self.last_log_time = rospy.get_time()
@@ -32,28 +32,39 @@ class ObstacleAvoidance:
             cmd_vel = Twist()
 
             # Calculate resolution in degrees
-            angle_increment_deg = data.angle_increment * (180.0 / 3.141592653589793) 
+            angle_increment_deg = data.angle_increment * (180.0 / 3.141592653589793)
 
             # Calculate the number of measurements per 360 degree scan 
             num_measurements = int(360 / angle_increment_deg)
 
+            # Calculate the index for -45 and +45 degrees
+            front_start = int((360 + (-45)) / angle_increment_deg) % num_measurements
+            front_end = int((360 + 45) / angle_increment_deg) % num_measurements
+            
+            # Calculate the index for left (-75 to -45 degrees)
+            left_start = int((360 + (-75)) / angle_increment_deg) % num_measurements
+            left_end = int((360 + (-45)) / angle_increment_deg) % num_measurements
+            
+            # Calculate the index for right (45 to 75 degrees)
+            right_start = int((360 + 45) / angle_increment_deg) % num_measurements
+            right_end = int((360 + 75) / angle_increment_deg) % num_measurements
+
             try:
-                # Divide the scan into 3 regions : 30, 90, 30 degrees
-                # regions = {
-                #     'left': min(min(data.ranges[0:int(num_measurements*1/3)]), 10),
-                #     'front': min(min(data.ranges[int(num_measurements*1/3):int(num_measurements*2/3)]), 10),
-                #     'right': min(min(data.ranges[int(num_measurements*2/3):]), 10),
-                # }
+                # Ensure the ranges are within bounds and handle the wrapping of indices
+                front_indices = data.ranges[front_start:front_end] if front_start < front_end else data.ranges[front_start:] + data.ranges[:front_end]
+                left_indices = data.ranges[left_start:left_end] if left_start < left_end else data.ranges[left_start:] + data.ranges[:left_end]
+                right_indices = data.ranges[right_start:right_end] if right_start < right_end else data.ranges[right_start:] + data.ranges[:right_end]
+
+                # Divide the scan into 3 regions : left (-75 to -45 degrees), front (-45 to +45 degrees), right (45 to 75 degrees)
                 regions = {
-                    'left': min(min(data.ranges[int(num_measurements*95/120):int(num_measurements*105/120)]), 5),
-                    'front': min(min(data.ranges[int(num_measurements*105/120):int(num_measurements*15/120)]), 5),
-                    'right': min(min(data.ranges[int(num_measurements*15/120):int(num_measurements*25/120)]), 5),
+                    'left': min(left_indices) if left_indices else float('inf'),
+                    'front': min(front_indices) if front_indices else float('inf'),
+                    'right': min(right_indices) if right_indices else float('inf'),
                 }
 
             except Exception as e:
                 rospy.logwarn(f"[obstacle_detection_node] Incomplete or invalid data: {e}")
                 return 
-
 
             current_time = rospy.get_time()
             if current_time - self.last_log_time >= self.log_frequency:
@@ -64,7 +75,6 @@ class ObstacleAvoidance:
 
             # Check the regions and decide the action 
             if regions['front'] < self.min_distance:
-
                 # If an obstacle is too close in front, turn based on which side is clearer 
                 if regions['left'] < regions['right']:
                     rospy.loginfo("Obstacle ahead! Turning Right...")
@@ -78,21 +88,20 @@ class ObstacleAvoidance:
                 rospy.loginfo("Path is clear. Moving forward...")
 
                 # Adjust speed based on the closest distance to an obstacle in the front region 
-                if (regions['front'] < self.max_distance):
+                if regions['front'] < self.max_distance:
                     # Scale the speed inversely proportional to distance 
                     cmd_vel.linear.x = self.forward_speed * (regions['front'] / self.max_distance)
-
                 else:
-                # Move at full speed
+                    # Move at full speed
                     cmd_vel.linear.x = self.forward_speed
-        
+
                 cmd_vel.angular.z = 0.0
 
             # Publish the velocity command 
             self.pub.publish(cmd_vel)
 
         except Exception as e:
-            rospy.logwarn(f"[obstacle_detection_node] Incomplete or Invalid data recieves from RPLiDAR: {e}")
+            rospy.logwarn(f"[obstacle_detection_node] Incomplete or Invalid data received from RPLiDAR: {e}")
 
     def run(self):
         rospy.spin()
