@@ -337,7 +337,75 @@
         </inertial>
     </link>
 
-  
+
+
+
+    <!-- COLORS -->
+    <gazebo reference="base_link">
+        <material> Gazebo/DarkGrey </material>
+    </gazebo>
+
+    <gazebo reference="upper_base_link">
+        <material> Gazebo/DarkGrey </material>
+    </gazebo>
+
+    <gazebo reference="back_rocker_link">
+        <material> Gazebo/ZincYellow </material>
+    </gazebo>
+
+    <gazebo reference="back_rocker_left_link">
+        <material> Gazebo/ZincYellow </material>
+    </gazebo>
+
+    <gazebo reference="back_rocker_right_link">
+        <material> Gazebo/ZincYellow </material>
+    </gazebo>
+
+    <gazebo reference="forward_left_front_rocker_link">
+        <material> Gazebo/ZincYellow </material>
+    </gazebo>
+
+    <gazebo reference="backward_left_front_rocker_link">
+        <material> Gazebo/ZincYellow </material>
+    </gazebo>
+
+    <gazebo reference="forward_right_front_rocker_link">
+        <material> Gazebo/ZincYellow </material>
+    </gazebo>
+
+    <gazebo reference="backward_right_front_rocker_link">
+        <material> Gazebo/ZincYellow </material>
+    </gazebo>
+
+    <gazebo reference="left_front_wheel_link">
+        <material> Gazebo/Black </material>
+    </gazebo>
+
+    <gazebo reference="right_front_wheel_link">
+        <material> Gazebo/Black </material>
+    </gazebo>
+
+    <gazebo reference="left_back_wheel_link">
+        <material> Gazebo/Black </material>
+    </gazebo>
+
+    <gazebo reference="right_back_wheel_link">
+        <material> Gazebo/Black </material>
+    </gazebo>
+
+    <gazebo reference="left_pneumatic_wheel_link">
+        <material> Gazebo/Black </material>
+    </gazebo>
+
+    <gazebo reference="right_pneumatic_wheel_link">
+        <material> Gazebo/Black </material>
+    </gazebo>
+
+    <gazebo reference="lidar_link">
+        <material> Gazebo/RedGlow </material>
+    </gazebo>
+
+
   
   
   	<!-- JOINTS / TRANSFORMS -->
