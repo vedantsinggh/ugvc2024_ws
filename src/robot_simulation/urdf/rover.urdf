@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <robot name="my_robot">
-	<!--  -->
+
   
   
   
@@ -31,6 +31,10 @@
             </geometry>
             <origin xyz="0.0 0.0 0.139" rpy="0.0 0.0 0.0"/>
         </collision>
+        <inertial>
+            <mass value="10.0"/>
+            <inertia ixx="0.1" ixy="0.0" ixz="0.0" iyy="0.1" iyz="0.0" izz="0.1"/>
+        </inertial>
     </link>
 
     <link name="upper_base_link">
@@ -47,6 +51,10 @@
             </geometry>
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>          
         </collision>
+        <inertial>
+            <mass value="10.0"/>
+            <inertia ixx="0.1" ixy="0.0" ixz="0.0" iyy="0.1" iyz="0.0" izz="0.1"/>
+        </inertial>
     </link>
     
     <link name="back_rocker_link">
@@ -62,7 +70,11 @@
                 <box size="0.03 0.632 0.03"/>
             </geometry>
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
-        </collision>        
+        </collision>   
+        <inertial>
+            <mass value="1.0"/>
+            <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01"/>
+        </inertial>     
     </link>
     
     <link name="back_rocker_left_link">
@@ -79,6 +91,10 @@
             </geometry>
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
         </collision>
+        <inertial>
+            <mass value="1.0"/>
+            <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01"/>
+        </inertial>
     </link>
     
     <link name="back_rocker_right_link">
@@ -95,7 +111,11 @@
             </geometry>
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
         </collision>
-    </link>
+        <inertial>
+            <mass value="1.0"/>
+            <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01"/>
+        </inertial>
+    </link>   
 
     <link name="forward_left_front_rocker_link">
         <visual>
@@ -110,7 +130,11 @@
                 <box size="0.33 0.03 0.03"/>
             </geometry>
             <origin xyz="0.155 0.0 0.0" rpy="0.0 0.0 0.0"/>
-        </collision>        
+        </collision>   
+        <inertial>
+            <mass value="1.0"/>
+            <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01"/>
+        </inertial>     
     </link>
 
     <link name="backward_left_front_rocker_link">
@@ -126,7 +150,11 @@
                 <box size="0.3 0.03 0.03"/>
             </geometry>
             <origin xyz="-0.15 0.0 0.0" rpy="0.0 0.0 0.0"/>
-        </collision>        
+        </collision>   
+        <inertial>
+            <mass value="1.0"/>
+            <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01"/>
+        </inertial>     
     </link>
 
     <link name="forward_right_front_rocker_link">
@@ -142,7 +170,11 @@
                 <box size="0.33 0.03 0.03"/>
             </geometry>
             <origin xyz="0.155 0.0 0.0" rpy="0.0 0.0 0.0"/>
-        </collision>        
+        </collision>  
+        <inertial>
+            <mass value="1.0"/>
+            <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01"/>
+        </inertial>      
     </link>
 
     <link name="backward_right_front_rocker_link">
@@ -158,7 +190,11 @@
                 <box size="0.3 0.03 0.03"/>
             </geometry>
             <origin xyz="-0.15 0.0 0.0" rpy="0.0 0.0 0.0"/>
-        </collision>        
+        </collision>  
+        <inertial>
+            <mass value="1.0"/>
+            <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01"/>
+        </inertial>      
     </link>
 
     <link name="left_front_wheel_link">
@@ -174,6 +210,11 @@
             </geometry>
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
         </collision>
+        <inertial>
+            <mass value="1.0"/>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+        </inertial>
     </link>
 
     <link name="right_front_wheel_link">
@@ -189,6 +230,11 @@
             </geometry>
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
         </collision>
+        <inertial>
+            <mass value="1.0"/>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+        </inertial>
     </link>
 
     <link name="left_back_wheel_link">
@@ -204,6 +250,11 @@
             </geometry>
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
         </collision>
+        <inertial>
+            <mass value="1.0"/>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+        </inertial>
     </link>
 
     <link name="right_back_wheel_link">
@@ -219,6 +270,11 @@
             </geometry>
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
         </collision>
+        <inertial>
+            <mass value="1.0"/>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+        </inertial>
     </link>
 
     <link name="left_pneumatic_wheel_link">
@@ -234,6 +290,11 @@
             </geometry>
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
         </collision>
+        <inertial>
+            <mass value="1.0"/>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+        </inertial>
     </link>
 
     <link name="right_pneumatic_wheel_link">
@@ -249,6 +310,11 @@
             </geometry>
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
         </collision>
+        <inertial>
+            <mass value="1.0"/>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+        </inertial>
     </link>
 
     <link name="lidar_link">
@@ -264,8 +330,12 @@
             </geometry>
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
         </collision>
+        <inertial>
+            <mass value="0.5"/>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001"/>
+        </inertial>
     </link>
-
 
   
   
@@ -367,19 +437,16 @@
         <axis xyz="0.0 0.0 -1.0"/>
     </joint>
 
-
-
-
-
-
-
-
-
-
     <joint name="base_lidar_joint" type="fixed">
         <parent link="base_link"/>
         <child link="lidar_link"/>
         <origin xyz="0.29 0.0 0.303" rpy="0.0 0.0 0.0"/>
     </joint>
 
+
+
+    <!-- PLUGINS -->
+    <gazebo>
+        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so"/>
+    </gazebo>
 </robot>
