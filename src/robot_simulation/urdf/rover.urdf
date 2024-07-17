@@ -544,7 +544,20 @@
 
     <!-- PLUGINS -->
     <gazebo>
-        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so"/>
+        <plugin name="skid_steer_drive_controller" filename="libgazebo_ros_skid_steer_drive.so">
+            <updateRate>100.0</updateRate>
+            <robotNamespace>/</robotNamespace>
+            <leftFrontJoint>forward_left_front_rocker_left_front_wheel_joint</leftFrontJoint>
+            <rightFrontJoint>forward_right_front_rocker_right_front_wheel_joint</rightFrontJoint>
+            <leftRearJoint>back_rocker_left_left_back_wheel_joint</leftRearJoint>
+            <rightRearJoint>back_rocker_right_right_back_wheel_joint</rightRearJoint>
+            <wheelSeparation>0.729</wheelSeparation>
+            <wheelDiameter>0.254</wheelDiameter>
+            <robotBaseFrame>base_link</robotBaseFrame>
+            <torque>20</torque>
+            <topicName>cmd_vel</topicName>
+            <broadcastTF>true</broadcastTF>
+        </plugin>
     </gazebo>
 
     <gazebo reference="rplidar_link">
