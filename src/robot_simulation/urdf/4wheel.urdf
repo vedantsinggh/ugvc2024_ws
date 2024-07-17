@@ -201,7 +201,7 @@
         <axis xyz="0.0 0.0 1.0"/>
     </joint>
     
-    <joint name="base_front_wheel_joint" type="continuous">
+    <joint name="base_right_front_wheel_joint" type="continuous">
         <parent link="base_link"/>
         <child link="right_front_wheel_link"/>
         <origin xyz="0.195 -0.3645 0.0" rpy="1.57 0.0 0.0"/>
