@@ -317,97 +317,28 @@
         </inertial>
     </link>
 
-    <link name="lidar_link">
+    <link name="rplidar_link">
         <visual>
             <geometry>
-                <cylinder radius="0.1" length="0.05"/>
+                <cylinder radius="0.038" length="0.041"/>
             </geometry>
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
         </visual>
         <collision>
             <geometry>
-                <cylinder radius="0.1" length="0.05"/>
+                <cylinder radius="0.038" length="0.041"/>
             </geometry>
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
         </collision>
         <inertial>
-            <mass value="0.5"/>
-            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
-            <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001"/>
+            <mass value="0.1"/>
+            <inertia ixx="0.000063" ixy="0" ixz="0" iyy="0.000063" iyz="0" izz="0.000125"/>
         </inertial>
     </link>
 
 
 
-
-    <!-- COLORS -->
-    <gazebo reference="base_link">
-        <material> Gazebo/DarkGrey </material>
-    </gazebo>
-
-    <gazebo reference="upper_base_link">
-        <material> Gazebo/DarkGrey </material>
-    </gazebo>
-
-    <gazebo reference="back_rocker_link">
-        <material> Gazebo/ZincYellow </material>
-    </gazebo>
-
-    <gazebo reference="back_rocker_left_link">
-        <material> Gazebo/ZincYellow </material>
-    </gazebo>
-
-    <gazebo reference="back_rocker_right_link">
-        <material> Gazebo/ZincYellow </material>
-    </gazebo>
-
-    <gazebo reference="forward_left_front_rocker_link">
-        <material> Gazebo/ZincYellow </material>
-    </gazebo>
-
-    <gazebo reference="backward_left_front_rocker_link">
-        <material> Gazebo/ZincYellow </material>
-    </gazebo>
-
-    <gazebo reference="forward_right_front_rocker_link">
-        <material> Gazebo/ZincYellow </material>
-    </gazebo>
-
-    <gazebo reference="backward_right_front_rocker_link">
-        <material> Gazebo/ZincYellow </material>
-    </gazebo>
-
-    <gazebo reference="left_front_wheel_link">
-        <material> Gazebo/Black </material>
-    </gazebo>
-
-    <gazebo reference="right_front_wheel_link">
-        <material> Gazebo/Black </material>
-    </gazebo>
-
-    <gazebo reference="left_back_wheel_link">
-        <material> Gazebo/Black </material>
-    </gazebo>
-
-    <gazebo reference="right_back_wheel_link">
-        <material> Gazebo/Black </material>
-    </gazebo>
-
-    <gazebo reference="left_pneumatic_wheel_link">
-        <material> Gazebo/Black </material>
-    </gazebo>
-
-    <gazebo reference="right_pneumatic_wheel_link">
-        <material> Gazebo/Black </material>
-    </gazebo>
-
-    <gazebo reference="lidar_link">
-        <material> Gazebo/RedGlow </material>
-    </gazebo>
-
-
-  
-  
+    
   	<!-- JOINTS / TRANSFORMS -->
     <joint name="base_upper_base_joint" type="fixed">
         <parent link="base_link"/>
@@ -418,7 +349,7 @@
     <joint name="base_back_rocker_joint" type="revolute">    
         <parent link="base_link"/>
         <child link="back_rocker_link"/>
-        <origin xyz="-0.425 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <origin xyz="-0.425 0.0 -0.028" rpy="0.0 0.0 0.0"/>    <!-- TODO -0.028  actual: -0.03 -->
         <axis xyz="1.0 0.0 0.0"/>
         <limit lower="-0.349" upper="0.349" effort="0.0" velocity="0.0"/>
     </joint>
@@ -505,11 +436,80 @@
         <axis xyz="0.0 0.0 -1.0"/>
     </joint>
 
-    <joint name="base_lidar_joint" type="fixed">
+    <joint name="base_rplidar_joint" type="fixed">
         <parent link="base_link"/>
-        <child link="lidar_link"/>
+        <child link="rplidar_link"/>
         <origin xyz="0.29 0.0 0.303" rpy="0.0 0.0 0.0"/>
     </joint>
+
+
+
+
+    <!-- COLORS -->
+    <gazebo reference="base_link">
+        <material> Gazebo/DarkGrey </material>
+    </gazebo>
+
+    <gazebo reference="upper_base_link">
+        <material> Gazebo/DarkGrey </material>
+    </gazebo>
+
+    <gazebo reference="back_rocker_link">
+        <material> Gazebo/ZincYellow </material>
+    </gazebo>
+
+    <gazebo reference="back_rocker_left_link">
+        <material> Gazebo/ZincYellow </material>
+    </gazebo>
+
+    <gazebo reference="back_rocker_right_link">
+        <material> Gazebo/ZincYellow </material>
+    </gazebo>
+
+    <gazebo reference="forward_left_front_rocker_link">
+        <material> Gazebo/ZincYellow </material>
+    </gazebo>
+
+    <gazebo reference="backward_left_front_rocker_link">
+        <material> Gazebo/ZincYellow </material>
+    </gazebo>
+
+    <gazebo reference="forward_right_front_rocker_link">
+        <material> Gazebo/ZincYellow </material>
+    </gazebo>
+
+    <gazebo reference="backward_right_front_rocker_link">
+        <material> Gazebo/ZincYellow </material>
+    </gazebo>
+
+    <gazebo reference="left_front_wheel_link">
+        <material> Gazebo/Black </material>
+    </gazebo>
+
+    <gazebo reference="right_front_wheel_link">
+        <material> Gazebo/Black </material>
+    </gazebo>
+
+    <gazebo reference="left_back_wheel_link">
+        <material> Gazebo/Black </material>
+    </gazebo>
+
+    <gazebo reference="right_back_wheel_link">
+        <material> Gazebo/Black </material>
+    </gazebo>
+
+    <gazebo reference="left_pneumatic_wheel_link">
+        <material> Gazebo/Black </material>
+    </gazebo>
+
+    <gazebo reference="right_pneumatic_wheel_link">
+        <material> Gazebo/Black </material>
+    </gazebo>
+
+    <!-- <gazebo reference="rplidar_link">
+        <material> Gazebo/RedGlow </material>
+    </gazebo> -->
+
 
 
 
@@ -517,4 +517,37 @@
     <gazebo>
         <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so"/>
     </gazebo>
+
+    <gazebo reference="rplidar_link">
+        <sensor type="ray" name="head_hokuyo_sensor">
+        <pose>0 0 0 0 0 0</pose>
+        <visualize>true</visualize>
+        <update_rate>40</update_rate>
+        <ray>
+            <scan>
+            <horizontal>
+                <samples>360</samples>
+                <resolution>1</resolution>
+                <min_angle>-1.3089</min_angle>
+                <max_angle>1.3089</max_angle>
+            </horizontal>
+            </scan>
+            <range>
+            <min>0.10</min>
+            <max>30.0</max>
+            <resolution>0.01</resolution>
+            </range>
+            <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.01</stddev>
+            </noise>
+        </ray>
+        <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
+            <topicName>/scan</topicName>
+            <frameName>rplidar_link</frameName>
+        </plugin>
+        </sensor>
+    </gazebo>
+  
 </robot>
