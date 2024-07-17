@@ -1,6 +1,6 @@
 <launch>
     <!-- Load the robot description from URDF -->
-    <param name="robot_description" command="cat $(find robot_simulation)/urdf/my_robot.urdf" />
+    <param name="robot_description" command="cat $(find robot_simulation)/urdf/rover.urdf" />
 
     <!-- Launch RViz -->
     <node name="rviz" pkg="rviz" type="rviz" args="-d $(find robot_simulation)/rviz/robot.rviz" required="true" />
