@@ -1,36 +1,30 @@
 #!/usr/bin/env python3
-
 import rospy
+from sensor_msgs.msg import Imu
 from std_msgs.msg import Float32
 import serial
 import json
 import serial.tools.list_ports
+from geometry_msgs.msg import Vector3
 
-def find_arduino():
-    # VID and PID for Arduino Uno R3
-    arduino_vid = '2341'
-    arduino_pid = '0043'
-
+def find_arduino(serial_number):
     ports = list(serial.tools.list_ports.comports())
     for p in ports:
-        if arduino_vid in p.hwid and arduino_pid in p.hwid:
+        if p.serial_number == serial_number:
             return p.device
     return None
 
 def imu_publisher():
     rospy.init_node('imu_publisher', anonymous=True)
-    pub_accel_x = rospy.Publisher('imu/accel_x', Float32, queue_size=10)
-    pub_accel_y = rospy.Publisher('imu/accel_y', Float32, queue_size=10)
-    pub_accel_z = rospy.Publisher('imu/accel_z', Float32, queue_size=10)
-    pub_gyro_x = rospy.Publisher('imu/gyro_x', Float32, queue_size=10)
-    pub_gyro_y = rospy.Publisher('imu/gyro_y', Float32, queue_size=10)
-    pub_gyro_z = rospy.Publisher('imu/gyro_z', Float32, queue_size=10)
+    pub_imu = rospy.Publisher('imu/data', Imu, queue_size=10)
     pub_temp = rospy.Publisher('imu/temperature', Float32, queue_size=10)
     rate = rospy.Rate(10)  # 10hz
 
-    port = find_arduino()
+    arduino_serial_number = '44236313735351705081'
+    port = find_arduino(arduino_serial_number)
+    
     if port is None:
-        rospy.logerr("Arduino not found")
+        rospy.logerr(f"Arduino with serial number {arduino_serial_number} not found")
         return
 
     ser = serial.Serial(port, 115200)
@@ -40,15 +34,26 @@ def imu_publisher():
             line = ser.readline().decode('utf-8').rstrip()
             try:
                 data = json.loads(line)
-                rospy.loginfo(data)
 
-                pub_accel_x.publish(data['accel_x'])
-                pub_accel_y.publish(data['accel_y'])
-                pub_accel_z.publish(data['accel_z'])
-                pub_gyro_x.publish(data['gyro_x'])
-                pub_gyro_y.publish(data['gyro_y'])
-                pub_gyro_z.publish(data['gyro_z'])
+                imu_msg = Imu()
+                imu_msg.header.stamp = rospy.Time.now()
+                imu_msg.header.frame_id = "imu_link"
+                imu_msg.linear_acceleration = Vector3(
+                    x=data['accel_x'],
+                    y=data['accel_y'],
+                    z=data['accel_z']
+                )
+
+                imu_msg.angular_velocity = Vector3(
+                    x=data['gyro_x'],
+                    y=data['gyro_y'],
+                    z=data['gyro_z']
+                )
+
+                pub_imu.publish(imu_msg)
+
                 pub_temp.publish(data['temperature'])
+
             except json.JSONDecodeError:
                 rospy.logwarn("Could not decode JSON")
 
